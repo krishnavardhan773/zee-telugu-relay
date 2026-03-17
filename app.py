@@ -5,7 +5,11 @@ from flask import Flask, Response, send_from_directory
 
 app = Flask(__name__)
 
-ZEE_URL = "https://z5ak-cmaflive.zee5.com/linear/hls/pb/event/c5sgyUOqSDSDUzovvmBwAA/stream/62662656-fb24-45b1-ae3e-16f2e3f277ec:TPE2/variant/a25b2469821a9b1de6978ef8744d198c/bandwidth/1525700.m3u8?hdntl=exp=1773852583~acl=%2f*~id=5326deab-4d44-49d7-814b-ac9b817a12f7~data=hdntl~hmac=2bd7c08f48a761235d0132de5b91695af0415990e0ecc9bd82241d158b3060e2"
+ZEE_VIDEO_URL = "https://z5ak-cmaflive.zee5.com/linear/hls/pb/event/c5sgyUOqSDSDUzovvmBwAA/stream/62662656-fb24-45b1-ae3e-16f2e3f277ec:TPE2/variant/a25b2469821a9b1de6978ef8744d198c/bandwidth/1525700.m3u8?hdntl=exp=1773852583~acl=%2f*~id=5326deab-4d44-49d7-814b-ac9b817a12f7~data=hdntl~hmac=2bd7c08f48a761235d0132de5b91695af0415990e0ecc9bd82241d158b3060e2"
+
+ZEE_AUDIO_URL = "https://z5ak-cmaflive.zee5.com/linear/hls/pb/event/c5sgyUOqSDSDUzovvmBwAA/stream/d296a78a-af9a-4dda-a808-2120f7a6ba46:SIN/variant/b4e6df4cae4bb40d694ecfd584e3b665/bandwidth/000.m3u8?hdntl=exp=1773844011~acl=%2f*~id=38f426ad-c412-4675-858d-af18470cdda3~data=hdntl~hmac=0895beaf04a3babcc0dc62c8610ed43fe9c630d6ed32586151e1f263a33a0113"
+
+HEADERS = 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\r\nReferer: https://www.zee5.com/\r\nOrigin: https://www.zee5.com\r\n'
 
 HLS_DIR = "/tmp/zee-hls"
 os.makedirs(HLS_DIR, exist_ok=True)
@@ -14,8 +18,12 @@ def run_ffmpeg():
     while True:
         process = subprocess.Popen([
             'ffmpeg', '-y',
-            '-headers', 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\r\nReferer: https://www.zee5.com/\r\nOrigin: https://www.zee5.com\r\n',
-            '-i', ZEE_URL,
+            '-headers', HEADERS,
+            '-i', ZEE_VIDEO_URL,
+            '-headers', HEADERS,
+            '-i', ZEE_AUDIO_URL,
+            '-map', '0:v',
+            '-map', '1:a',
             '-c:v', 'copy',
             '-c:a', 'aac',
             '-b:a', '128k',
