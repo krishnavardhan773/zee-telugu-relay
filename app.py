@@ -5,7 +5,7 @@ from flask import Flask, Response, send_from_directory
 
 app = Flask(__name__)
 
-ZEE_URL = "ZEE_URL = "https://z5ak-cmaflive.zee5.com/linear/hls/pb/event/c5sgyUOqSDSDUzovvmBwAA/stream/62662656-fb24-45b1-ae3e-16f2e3f277ec:TPE2/variant/a25b2469821a9b1de6978ef8744d198c/bandwidth/1525700.m3u8?hdntl=exp=1773852583~acl=%2f*~id=5326deab-4d44-49d7-814b-ac9b817a12f7~data=hdntl~hmac=2bd7c08f48a761235d0132de5b91695af0415990e0ecc9bd82241d158b3060e2""
+ZEE_URL = "https://z5ak-cmaflive.zee5.com/linear/hls/pb/event/c5sgyUOqSDSDUzovvmBwAA/stream/62662656-fb24-45b1-ae3e-16f2e3f277ec:TPE2/variant/a25b2469821a9b1de6978ef8744d198c/bandwidth/1525700.m3u8?hdntl=exp=1773852583~acl=%2f*~id=5326deab-4d44-49d7-814b-ac9b817a12f7~data=hdntl~hmac=2bd7c08f48a761235d0132de5b91695af0415990e0ecc9bd82241d158b3060e2"
 
 HLS_DIR = "/tmp/zee-hls"
 os.makedirs(HLS_DIR, exist_ok=True)
